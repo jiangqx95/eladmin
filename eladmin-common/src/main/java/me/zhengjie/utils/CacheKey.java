@@ -34,6 +34,9 @@ public interface CacheKey {
      * 菜单
      */
     String MENU_ID = "menu::id:";
+
+    String MENU = "menu:";
+
     String MENU_USER = "menu::user:";
     /**
      * 角色授权

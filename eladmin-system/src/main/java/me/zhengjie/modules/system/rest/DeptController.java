@@ -25,6 +25,7 @@ import me.zhengjie.modules.system.domain.Dept;
 import me.zhengjie.modules.system.service.DeptService;
 import me.zhengjie.modules.system.service.dto.DeptDto;
 import me.zhengjie.modules.system.service.dto.DeptQueryCriteria;
+import me.zhengjie.response.ServerResponse;
 import me.zhengjie.utils.PageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,9 +58,9 @@ public class DeptController {
     @ApiOperation("查询部门")
     @GetMapping
     @PreAuthorize("@el.check('user:list','dept:list')")
-    public ResponseEntity<Object> queryDept(DeptQueryCriteria criteria) throws Exception {
+    public ServerResponse<Object> queryDept(DeptQueryCriteria criteria) throws Exception {
         List<DeptDto> deptDtos = deptService.queryAll(criteria, true);
-        return new ResponseEntity<>(PageUtil.toPage(deptDtos, deptDtos.size()),HttpStatus.OK);
+        return ServerResponse.ok(PageUtil.toPage(deptDtos, deptDtos.size()));
     }
 
     @ApiOperation("查询部门:根据ID获取同级与上级数据")

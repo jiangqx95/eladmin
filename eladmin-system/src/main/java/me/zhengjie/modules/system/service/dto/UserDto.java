@@ -43,7 +43,7 @@ public class UserDto extends BaseDTO implements Serializable {
 
     private String username;
 
-    private String nickName;
+    private String realName;
 
     private String email;
 

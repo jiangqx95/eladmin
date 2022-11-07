@@ -31,26 +31,30 @@ import me.zhengjie.modules.security.config.bean.LoginCodeEnum;
 import me.zhengjie.modules.security.config.bean.LoginProperties;
 import me.zhengjie.modules.security.config.bean.SecurityProperties;
 import me.zhengjie.modules.security.security.TokenProvider;
+import me.zhengjie.modules.security.service.OnlineUserService;
 import me.zhengjie.modules.security.service.dto.AuthUserDto;
 import me.zhengjie.modules.security.service.dto.JwtUserDto;
-import me.zhengjie.modules.security.service.OnlineUserService;
-import me.zhengjie.utils.RsaUtils;
+import me.zhengjie.response.ServerResponse;
 import me.zhengjie.utils.RedisUtils;
+import me.zhengjie.utils.RsaUtils;
 import me.zhengjie.utils.SecurityUtils;
 import me.zhengjie.utils.StringUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author Zheng Jie
@@ -74,7 +78,7 @@ public class AuthorizationController {
     @Log("用户登录")
     @ApiOperation("登录授权")
     @AnonymousPostMapping(value = "/login")
-    public ResponseEntity<Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request) throws Exception {
+    public ServerResponse<Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request) throws Exception {
         // 密码解密
         String password = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, authUser.getPassword());
         // 查询验证码
@@ -108,18 +112,24 @@ public class AuthorizationController {
             //踢掉之前已经登录的token
             onlineUserService.checkLoginOnUser(authUser.getUsername(), token);
         }
-        return ResponseEntity.ok(authInfo);
+        return ServerResponse.ok(authInfo);
     }
 
     @ApiOperation("获取用户信息")
-    @GetMapping(value = "/info")
-    public ResponseEntity<Object> getUserInfo() {
-        return ResponseEntity.ok(SecurityUtils.getCurrentUser());
+    @GetMapping(value = "/getUserInfo")
+    public ServerResponse<Object> getUserInfo() {
+        return ServerResponse.ok(SecurityUtils.getCurrentUser());
+    }
+
+    @ApiOperation("获取权限码")
+    @GetMapping(value = "/getPermCode")
+    public ServerResponse getPermCode() {
+        return ServerResponse.ok(SecurityUtils.getCurrentUser().getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList()));
     }
 
     @ApiOperation("获取验证码")
-    @AnonymousGetMapping(value = "/code")
-    public ResponseEntity<Object> getCode() {
+    @AnonymousGetMapping(value = "/getVerificationCode")
+    public ServerResponse<Object> getCode() {
         // 获取运算的结果
         Captcha captcha = loginProperties.getCaptcha();
         String uuid = properties.getCodeKey() + IdUtil.simpleUUID();
@@ -135,13 +145,13 @@ public class AuthorizationController {
             put("img", captcha.toBase64());
             put("uuid", uuid);
         }};
-        return ResponseEntity.ok(imgResult);
+        return ServerResponse.ok(imgResult);
     }
 
     @ApiOperation("退出登录")
     @AnonymousDeleteMapping(value = "/logout")
-    public ResponseEntity<Object> logout(HttpServletRequest request) {
+    public ServerResponse<Object> logout(HttpServletRequest request) {
         onlineUserService.logout(tokenProvider.getToken(request));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ServerResponse.ok();
     }
 }

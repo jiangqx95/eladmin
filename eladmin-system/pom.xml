@@ -24,12 +24,12 @@
             <groupId>me.zhengjie</groupId>
             <artifactId>eladmin-generator</artifactId>
             <version>2.6</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>me.zhengjie</groupId>
-                    <artifactId>eladmin-common</artifactId>
-                </exclusion>
-            </exclusions>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>me.zhengjie</groupId>-->
+<!--                    <artifactId>eladmin-common</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
 
         <!-- tools 模块包含了 common 和 logging 模块 -->

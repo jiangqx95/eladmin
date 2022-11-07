@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
         user.setDept(resources.getDept());
         user.setJobs(resources.getJobs());
         user.setPhone(resources.getPhone());
-        user.setNickName(resources.getNickName());
+        user.setRealName(resources.getRealName());
         user.setGender(resources.getGender());
         userRepository.save(user);
         // 清除缓存
@@ -149,7 +149,7 @@ public class UserServiceImpl implements UserService {
         if (user1 != null && !user.getId().equals(user1.getId())) {
             throw new EntityExistException(User.class, "phone", resources.getPhone());
         }
-        user.setNickName(resources.getNickName());
+        user.setRealName(resources.getRealName());
         user.setPhone(resources.getPhone());
         user.setGender(resources.getGender());
         userRepository.save(user);

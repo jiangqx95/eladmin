@@ -709,4 +709,15 @@ public class RedisUtils {
         log.debug("缓存删除数量：" + count + "个");
         log.debug("--------------------------------------------");
     }
+
+    /**
+     * @param prefix 前缀
+     */
+    public void delByPrefix(String prefix) {
+        redisTemplate.delete(redisTemplate.keys(prefix + "**"));
+        // 此处提示可自行删除
+        log.debug("--------------------------------------------");
+        log.debug("成功删除缓存(前缀匹配)：" + prefix);
+        log.debug("--------------------------------------------");
+    }
 }
