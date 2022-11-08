@@ -37,7 +37,7 @@
         <fastjson.version>1.2.83</fastjson.version>
         <druid.version>1.2.8</druid.version>
         <commons-pool2.version>2.11.1</commons-pool2.version>
-        <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <mapstruct.version>1.5.3.Final</mapstruct.version>
     </properties>
 
     <dependencies>
@@ -51,7 +51,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-
         </dependency>
 
         <!--Spring boot 测试-->
@@ -106,7 +105,6 @@
             <version>3.0.3</version>
         </dependency>
 
-
         <!--Mysql依赖包-->
         <dependency>
             <groupId>mysql</groupId>
@@ -126,7 +124,7 @@
         <dependency>
             <groupId>net.dreamlu</groupId>
             <artifactId>mica-ip2region</artifactId>
-            <version>2.6.3</version>
+            <version>2.7.5</version>
         </dependency>
 
         <!--lombok插件-->
@@ -140,12 +138,12 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>5.2.0</version>
+            <version>5.2.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>5.2.0</version>
+            <version>5.2.2</version>
         </dependency>
         <dependency>
             <groupId>xerces</groupId>
@@ -195,7 +193,7 @@
         <dependency>
             <groupId>nl.basjes.parse.useragent</groupId>
             <artifactId>yauaa</artifactId>
-            <version>6.11</version>
+            <version>7.8.0</version>
         </dependency>
     </dependencies>
 

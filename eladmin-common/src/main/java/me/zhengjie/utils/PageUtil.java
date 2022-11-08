@@ -45,18 +45,18 @@ public class PageUtil extends cn.hutool.core.util.PageUtil {
      */
     public static Map<String,Object> toPage(Page page) {
         Map<String,Object> map = new LinkedHashMap<>(2);
-        map.put("content",page.getContent());
-        map.put("totalElements",page.getTotalElements());
+        map.put("items",page.getContent());
+        map.put("total",page.getTotalElements());
         return map;
     }
 
     /**
      * 自定义分页
      */
-    public static Map<String,Object> toPage(Object object, Object totalElements) {
+    public static Map<String,Object> toPage(Object object, Object total) {
         Map<String,Object> map = new LinkedHashMap<>(2);
-        map.put("content",object);
-        map.put("totalElements",totalElements);
+        map.put("items",object);
+        map.put("total",total);
         return map;
     }
 

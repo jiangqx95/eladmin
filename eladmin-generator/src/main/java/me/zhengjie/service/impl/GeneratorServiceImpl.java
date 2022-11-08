@@ -90,8 +90,8 @@ public class GeneratorServiceImpl implements GeneratorService {
                 "where table_schema = (select database()) and table_name like :table";
         Query queryCount = em.createNativeQuery(countSql);
         queryCount.setParameter("table", StringUtils.isNotBlank(name) ? ("%" + name + "%") : "%%");
-        Object totalElements = queryCount.getSingleResult();
-        return PageUtil.toPage(tableInfos, totalElements);
+        Object total = queryCount.getSingleResult();
+        return PageUtil.toPage(tableInfos, total);
     }
 
     @Override

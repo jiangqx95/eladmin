@@ -230,8 +230,8 @@ public class DeptServiceImpl implements DeptService {
             trees = depts;
         }
         Map<String,Object> map = new HashMap<>(2);
-        map.put("totalElements",deptDtos.size());
-        map.put("content",CollectionUtil.isEmpty(trees)? deptDtos :trees);
+        map.put("total",deptDtos.size());
+        map.put("items",CollectionUtil.isEmpty(trees)? deptDtos :trees);
         return map;
     }
 
