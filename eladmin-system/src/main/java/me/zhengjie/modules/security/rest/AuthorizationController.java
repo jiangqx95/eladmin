@@ -79,8 +79,15 @@ public class AuthorizationController {
     @ApiOperation("登录授权")
     @AnonymousPostMapping(value = "/login")
     public ServerResponse<Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request) throws Exception {
+
+        // 项目启动后会自动调用一次/login,password为null
+        if (authUser.getPassword() == null) {
+            return null;
+        }
+
         // 密码解密
         String password = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, authUser.getPassword());
+
         // 查询验证码
         String code = (String) redisUtils.get(authUser.getUuid());
         // 清除验证码
