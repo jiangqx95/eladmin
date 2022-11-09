@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.7</version>
+        <version>2.6.5</version>
     </parent>
 
     <groupId>me.zhengjie</groupId>
@@ -18,9 +18,10 @@
     <modules>
         <module>eladmin-common</module>
         <module>eladmin-logging</module>
-        <module>eladmin-system</module>
         <module>eladmin-tools</module>
         <module>eladmin-generator</module>
+        <module>eladmin-core</module>
+        <module>eladmin-system</module>
     </modules>
 
     <name>ELADMIN 后台管理</name>
@@ -98,7 +99,6 @@
         </dependency>
 
         <!-- Swagger UI 相关 -->
-        <!-- https://mvnrepository.com/artifact/com.github.xiaoymin/knife4j-spring-boot-starter -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
@@ -198,6 +198,8 @@
     </dependencies>
 
     <build>
+        <!--打包名称-->
+        <finalName>eladmin</finalName>
         <plugins>
             <!-- 打包时跳过测试 -->
             <plugin>
