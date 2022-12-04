@@ -56,7 +56,7 @@ public class ScpClientUtil {
 				System.err.println("authentication failed");
 			}
 			SCPClient client = new SCPClient(conn);
-			client.get(remoteFile, localTargetDirectory);
+			client.get(remoteFile);
 		} catch (IOException ex) {
 			Logger.getLogger(SCPClient.class.getName()).log(Level.SEVERE, null, ex);
 		}finally{
@@ -84,11 +84,11 @@ public class ScpClientUtil {
 			if ((mode == null) || (mode.length() == 0)) {
 				mode = "0600";
 			}
-			if (remoteFileName == null) {
-				client.put(localFile, remoteTargetDirectory);
-			} else {
-				client.put(localFile, remoteFileName, remoteTargetDirectory, mode);
-			}
+//			if (remoteFileName == null) {
+//				client.put(localFile, remoteTargetDirectory);
+//			} else {
+//				client.put(localFile, remoteFileName, remoteTargetDirectory, mode);
+//			}
 		} catch (IOException ex) {
 			Logger.getLogger(ScpClientUtil.class.getName()).log(Level.SEVERE, null, ex);
 		}finally{

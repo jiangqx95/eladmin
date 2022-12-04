@@ -15,17 +15,17 @@ public enum ResultEnum {
     // code: 0 | -1 | 401 | ...
     // type: "success" | "error" | "warning"
 
-    OK(0, "success", "成功"),
-    ERROR(-1, "error", "失败"),
-    WARING(0, "waring", "警告");
+    OK(200, true, "成功"),
+    ERROR(-1, false, "失败"),
+    WARING(0, false, "警告");
 
     private Integer code;
-    private String type;
+    private Boolean success;
     private String message;
 
-    ResultEnum(Integer code, String type, String message) {
+    ResultEnum(Integer code, Boolean success, String message) {
         this.code = code;
-        this.type = type;
+        this.success = success;
         this.message = message;
     }
 }

@@ -30,7 +30,7 @@ public class LocalStorageDto extends BaseDTO implements Serializable {
 
     private Long id;
 
-    private String realName;
+    private String nickName;
 
     private String name;
 

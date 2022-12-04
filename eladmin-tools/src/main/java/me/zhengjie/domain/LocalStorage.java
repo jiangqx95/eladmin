@@ -40,8 +40,8 @@ public class LocalStorage extends BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ApiModelProperty(value = "真实文件名")
-    private String realName;
+    @ApiModelProperty(value = "昵称")
+    private String nickName;
 
     @ApiModelProperty(value = "文件名")
     private String name;
@@ -58,8 +58,8 @@ public class LocalStorage extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "大小")
     private String size;
 
-    public LocalStorage(String realName,String name, String suffix, String path, String type, String size) {
-        this.realName = realName;
+    public LocalStorage(String nickName,String name, String suffix, String path, String type, String size) {
+        this.nickName = nickName;
         this.name = name;
         this.suffix = suffix;
         this.path = path;

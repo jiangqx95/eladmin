@@ -120,7 +120,7 @@ public class LocalStorageServiceImpl implements LocalStorageService {
         List<Map<String, Object>> list = new ArrayList<>();
         for (LocalStorageDto localStorageDTO : queryAll) {
             Map<String,Object> map = new LinkedHashMap<>();
-            map.put("文件名", localStorageDTO.getRealName());
+            map.put("文件名", localStorageDTO.getNickName());
             map.put("备注名", localStorageDTO.getName());
             map.put("文件类型", localStorageDTO.getType());
             map.put("文件大小", localStorageDTO.getSize());
