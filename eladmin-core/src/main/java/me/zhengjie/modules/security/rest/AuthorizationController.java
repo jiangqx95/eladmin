@@ -123,7 +123,7 @@ public class AuthorizationController {
     }
 
     @ApiOperation("获取用户信息")
-    @GetMapping(value = "/getUserInfo")
+    @GetMapping(value = "/userInfo")
     public ServerResponse<Object> getUserInfo() {
         return ServerResponse.ok(SecurityUtils.getCurrentUser());
     }
@@ -135,7 +135,7 @@ public class AuthorizationController {
     }
 
     @ApiOperation("获取验证码")
-    @AnonymousGetMapping(value = "/getVerificationCode")
+    @AnonymousGetMapping(value = "/code")
     public ServerResponse<Object> getCode() {
         // 获取运算的结果
         Captcha captcha = loginProperties.getCaptcha();

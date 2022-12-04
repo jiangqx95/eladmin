@@ -47,7 +47,7 @@ public class RunAfterStarted implements CommandLineRunner {
         log.info(">>>>>>>>>>>>>>> 加载 yauaa-useragent >>>>>>>>>>>>>>>");
         try {
             // 验证码接口
-            restTemplate.execute("http://127.0.0.1:" + environment.getProperty("local.server.port") + "/auth/getVerificationCode", HttpMethod.GET, null, null);
+            restTemplate.execute("http://127.0.0.1:" + environment.getProperty("local.server.port") + "/auth/code", HttpMethod.GET, null, null);
             // 登录接口
             restTemplate.postForObject("http://127.0.0.1:" + environment.getProperty("local.server.port") + "/auth/login", new HttpEntity<>(new JSONObject().toString(), headers), String.class);
         } catch (Exception e) {
