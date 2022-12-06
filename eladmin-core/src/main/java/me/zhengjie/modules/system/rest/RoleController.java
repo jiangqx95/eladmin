@@ -80,8 +80,8 @@ public class RoleController {
     @ApiOperation("查询角色")
     @GetMapping
     @PreAuthorize("@el.check('roles:list')")
-    public ResponseEntity<Object> queryRole(RoleQueryCriteria criteria, Pageable pageable) {
-        return new ResponseEntity<>(roleService.queryAll(criteria, pageable), HttpStatus.OK);
+    public ServerResponse<Object> queryRole(RoleQueryCriteria criteria, Pageable pageable) {
+        return ServerResponse.ok(roleService.queryAll(criteria, pageable));
     }
 
     @ApiOperation("获取用户级别")

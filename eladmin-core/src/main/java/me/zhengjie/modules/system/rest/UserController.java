@@ -32,6 +32,7 @@ import me.zhengjie.modules.system.service.dto.RoleSmallDto;
 import me.zhengjie.modules.system.service.dto.UserDto;
 import me.zhengjie.modules.system.service.dto.UserQueryCriteria;
 import me.zhengjie.modules.system.service.VerifyService;
+import me.zhengjie.response.ServerResponse;
 import me.zhengjie.utils.*;
 import me.zhengjie.modules.system.service.UserService;
 import me.zhengjie.utils.enums.CodeEnum;
@@ -77,7 +78,7 @@ public class UserController {
     @ApiOperation("查询用户")
     @GetMapping
     @PreAuthorize("@el.check('user:list')")
-    public ResponseEntity<Object> queryUser(UserQueryCriteria criteria, Pageable pageable){
+    public ServerResponse<Object> queryUser(UserQueryCriteria criteria, Pageable pageable){
         if (!ObjectUtils.isEmpty(criteria.getDeptId())) {
             criteria.getDeptIds().add(criteria.getDeptId());
             // 先查找是否存在子节点
@@ -92,14 +93,14 @@ public class UserController {
             // 取交集
             criteria.getDeptIds().retainAll(dataScopes);
             if(!CollectionUtil.isEmpty(criteria.getDeptIds())){
-                return new ResponseEntity<>(userService.queryAll(criteria,pageable),HttpStatus.OK);
+                return ServerResponse.ok(userService.queryAll(criteria, pageable));
             }
         } else {
             // 否则取并集
             criteria.getDeptIds().addAll(dataScopes);
-            return new ResponseEntity<>(userService.queryAll(criteria,pageable),HttpStatus.OK);
+            return ServerResponse.ok(userService.queryAll(criteria,pageable));
         }
-        return new ResponseEntity<>(PageUtil.toPage(null,0),HttpStatus.OK);
+        return ServerResponse.ok(PageUtil.toPage(null,0));
     }
 
     @Log("新增用户")
