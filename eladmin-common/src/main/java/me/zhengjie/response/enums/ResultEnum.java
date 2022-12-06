@@ -15,7 +15,7 @@ public enum ResultEnum {
     // code: 0 | -1 | 401 | ...
     // type: "success" | "error" | "warning"
 
-    OK(200, true, "成功"),
+    OK(1, true, "成功"),
     ERROR(-1, false, "失败"),
     WARING(0, false, "警告");
 

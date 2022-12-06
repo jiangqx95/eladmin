@@ -27,6 +27,10 @@ import lombok.Data;
 public class LoginCode {
 
     /**
+     * 是否开启登录验证码
+     */
+    private Boolean enable = true;
+    /**
      * 验证码配置
      */
     private LoginCodeEnum codeType;

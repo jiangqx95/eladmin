@@ -4,7 +4,7 @@ spring:
     druid:
       db-type: com.alibaba.druid.pool.DruidDataSource
       driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-      url: jdbc:log4jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:eladmin}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=false
+      url: jdbc:log4jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:eladmin2}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=false
       username: ${DB_USER:root}
       password: ${DB_PWD:jiang123}
       # 初始连接数
@@ -59,9 +59,11 @@ login:
     idle-time: 7200
   #  验证码
   login-code:
+    # 是否开启验证码，默认true
+    enable: true
     #  验证码类型配置 查看 LoginProperties 类
     code-type: arithmetic
-    #  登录图形验证码有效时间/分钟
+    #  登录图形验证码有效时间/分钟，默认2分钟
     expiration: 2
     #  验证码高度
     width: 111
