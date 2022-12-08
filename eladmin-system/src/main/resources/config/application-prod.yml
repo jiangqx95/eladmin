@@ -54,13 +54,15 @@ spring:
 # 登录相关配置
 login:
   #  是否限制单用户登录
-  single-login: false
+  single-login: true
   # Redis用户登录缓存配置
   user-cache:
     # 存活时间/秒
     idle-time: 7200
   #  验证码
   login-code:
+    # 是否开启验证码，默认true
+    enable: true
     #  验证码类型配置 查看 LoginProperties 类
     code-type: arithmetic
     #  登录图形验证码有效时间/分钟
