@@ -287,7 +287,6 @@ public class MenuServiceImpl implements MenuService {
                         menuVo.setMeta(new MenuMetaVo(menuDTO.getTitle(), menuDTO.getIcon(), !menuDTO.getCache()));
                         if (CollectionUtil.isNotEmpty(menuDtoList)) {
                             menuVo.setAlwaysShow(true);
-                            menuVo.setRedirect("noredirect");
                             menuVo.setChildren(buildMenus(menuDtoList));
                             // 处理是一级菜单并且没有子菜单的情况
                         }
@@ -349,8 +348,6 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 清理缓存
-     *
-     * @param id 菜单ID
      */
     public void delCaches() {
         Long id = SecurityUtils.getCurrentUserId();
