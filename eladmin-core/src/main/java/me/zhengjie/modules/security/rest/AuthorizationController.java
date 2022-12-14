@@ -84,43 +84,43 @@ public class AuthorizationController {
             return null;
         }
 
-        // 密码解密
-        String password = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, authUser.getPassword());
-
+        // 查询验证码
         if (loginProperties.getLoginCode().getEnable()) {
-            // 查询验证码
             String code = (String) redisUtils.get(authUser.getUuid());
-            // 清除验证码
-            redisUtils.del(authUser.getUuid());
             if (StringUtils.isBlank(code)) {
                 throw new BadRequestException("验证码不存在或已过期");
             }
-            if (StringUtils.isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
+            // 清除验证码
+            redisUtils.del(authUser.getUuid());
+            if (!code.equalsIgnoreCase(authUser.getCode())) {
                 throw new BadRequestException("验证码错误");
             }
         }
 
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
+        // 密码解密
+        String password = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, authUser.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         // 生成令牌与第三方系统获取令牌方式
         // UserDetails userDetails = userDetailsService.loadUserByUsername(userInfo.getUsername());
         // Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         // SecurityContextHolder.getContext().setAuthentication(authentication);
+
         String token = tokenProvider.createToken(authentication);
         final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
         // 保存在线信息
         onlineUserService.save(jwtUserDto, token, request);
+        // 单用户登录，踢掉之前已经登录的token
+        if (loginProperties.isSingleLogin()) {
+            onlineUserService.checkLoginOnUser(authUser.getUsername(), token);
+        }
         // 返回 token 与 用户信息
         Map<String, Object> authInfo = new HashMap<String, Object>(2) {{
             put("token", properties.getTokenStartWith() + token);
             put("user", jwtUserDto);
         }};
-        if (loginProperties.isSingleLogin()) {
-            //踢掉之前已经登录的token
-            onlineUserService.checkLoginOnUser(authUser.getUsername(), token);
-        }
         return ServerResponse.ok(authInfo);
     }
 
