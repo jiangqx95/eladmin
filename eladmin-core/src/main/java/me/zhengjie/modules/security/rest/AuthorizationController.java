@@ -88,11 +88,10 @@ public class AuthorizationController {
         if (loginProperties.getLoginCode().getEnable()) {
             String code = (String) redisUtils.get(authUser.getUuid());
             if (StringUtils.isBlank(code)) {
-                throw new BadRequestException("验证码已过期");
-            } else {
-                // 用一次就销毁
-                redisUtils.del(authUser.getUuid());
+                throw new BadRequestException("验证码不存在或已过期");
             }
+            // 清除验证码
+            redisUtils.del(authUser.getUuid());
             if (!code.equalsIgnoreCase(authUser.getCode())) {
                 throw new BadRequestException("验证码错误");
             }
@@ -100,8 +99,8 @@ public class AuthorizationController {
 
         // 密码解密
         String password = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, authUser.getPassword());
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authToken);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // 生成令牌与第三方系统获取令牌方式
@@ -109,15 +108,12 @@ public class AuthorizationController {
         // Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         // SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // 生成token
         String token = tokenProvider.createToken(authentication);
         final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
-
         // 保存在线信息
         onlineUserService.save(jwtUserDto, token, request);
-        // 单用户登录
+        // 单用户登录，踢掉之前已经登录的token
         if (loginProperties.isSingleLogin()) {
-            //踢掉之前已经登录的token
             onlineUserService.checkLoginOnUser(authUser.getUsername(), token);
         }
         // 返回 token 与 用户信息
